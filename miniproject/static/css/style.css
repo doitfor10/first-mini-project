@@ -1,0 +1,53 @@
+body{
+    background-image: url("/static/image/back.png");
+    color:#333230;
+}
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    }
+
+    body{
+    font-family: 'NanumSquare', sans-serif !important;
+    }
+
+    .header {
+        width: 100%;
+        border: 1px solid transparent;
+        height: 55px;
+        background-color: #6C5D54;
+    }
+
+    .header-middle{
+
+        width:1100px;
+        margin: 0 auto;
+        height: inherit;
+    }
+    .logo{
+        font-family: 'yg-jalnan';
+        color:white;
+        font-size: 24px;
+        display: block;
+        margin: 7px 0px 0px 10px;
+        width:165px;
+    }
+    .logo:hover{
+        color:white;
+        text-decoration: none;
+    }
+
+
+
+    .container{
+
+        width:1100px;
+        margin-top:60px;
+    }
+
+    input[type=password] {
+        font-family: "맑은 고딕", sans-serif;
+    }
