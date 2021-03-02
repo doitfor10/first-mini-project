@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>나혼자 레시피 :: 레시피를 공유해요</title>
+
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/solid.min.css">
+
+    <!--꼭 기본으로 들어가야 할 css 입니다!-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/write.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
+
+
+</head>
+<body>
+
+
+{% include 'header.html' %}
+    <div class="container">
+        <!--이 안에 콘텐츠 넣어주세요!-->
+
+        <div class="write-box">
+            <div class="recipe-info">
+                <i class="fas fa-pen fa-4x"></i>
+                <h2 class="info-label">함께 공유하고 싶은 꿀 레시피를 적어주세요 :)</h2>
+            </div>
+            <div class="write-recipe">
+
+                <label for="title">레시피 제목</label>
+                <input type="text" id="title" placeholder="레시피 제목을 입력해주세요.">
+
+                <label for="desc">레시피 설명</label>
+                <input type="text" id="desc" placeholder="레시피 설명을 입력해주세요.">
+
+                <label for="image">레시피 이미지 URL</label>
+                <input type="url" id="image" placeholder="레시피 이미지 링크를 넣어주세요.">
+
+                <label for="image">레시피 URL</label>
+                <input type="url" id="url" placeholder="레시피 링크를 넣어주세요.">
+
+            </div>
+             <button type="button" class="btn btn-primary btn-lg write-btn">레시피 등록!</button>
+        </div>
+
+
+
+
+    </div><!--container-->
+
+
+
+</body>
+</html>

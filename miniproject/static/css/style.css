@@ -51,3 +51,37 @@ body{
     input[type=password] {
         font-family: "맑은 고딕", sans-serif;
     }
+
+       .header-middle{
+            position: relative;
+        }
+        .user-box{
+
+            width:280px;
+            position: absolute;
+            right:0px;
+            top:7px;
+
+        }
+        ul{
+            list-style-type: none;
+            display: flex;
+
+        }
+        .user-box ul>li:first-child:after{
+            content: '|';
+            color:white;
+            margin-left:10px;
+        }
+        .user-box ul>li{
+            margin-right: 10px;
+        }
+
+        a{
+            color:white;
+        }
+        a:hover{
+            color:#D7CBA3;
+            text-decoration: none;
+
+        }

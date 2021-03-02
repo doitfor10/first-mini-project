@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>나혼자 레시피 :: 레시피를 공유해요</title>
+
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!--꼭 기본으로 들어가야 할 css 입니다!-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
+
+    <style>
+
+        .error{
+            color:#CA4646;
+        }
+
+        #go-btn:disabled{
+            background-color:#6C5D54;
+        }
+    </style>
+    <script>
+
+        function  is_id(value){
+            let regExp =  /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{1,12}$/;
+            return regExp.test(value);
+        }
+
+        function is_password(password,password2){
+
+            if(password==""|| password2==""){
+                document.querySelector('#pw-info').innerText ='비밀번호를 입력해주세요.';
+                document.querySelector('#pw-info').classList.add('error');
+                return false;
+            }else if (password !=password2){
+                document.querySelector('#pw-info').innerText ='비밀번호 재확인이 일치하지 않습니다.';
+                document.querySelector('#pw-info').classList.add('error');
+                return false;
+            }else{
+                 document.querySelector('#pw-info').innerText ='';
+                 document.querySelector('#pw-info').classList.remove('error');
+                return true;
+            }
+        }
+
+        function sign_in(){
+            let nickname = document.querySelector('#user-name');
+            let id = document.querySelector('#user-id').value;
+            let password = document.querySelector('#pw-id').value;
+            let password2 = document.querySelector('#pw-id-check').value;
+            let nameInfo = document.querySelector('#name-info');
+            let idInfo = document.querySelector('#id-info');
+
+            let userName = nickname.value;
+           if (userName.length === 0) {
+
+               nameInfo.classList.add('error');
+               nameInfo.innerText = '닉네임을 올바르게 입력해주세요.';
+               return;
+           }
+           if(!is_id(id)){
+               idInfo.classList.add('error');
+               return;
+           }
+           if(!is_password(password,password2)){
+               return;
+           }
+
+           $.ajax({
+               type:"POST",
+               url:"/join/save",
+               data:{
+                   username_give:userName,
+                   id_give: id,
+                   password_give: password
+               },
+               success:function (response){
+                   alert('나혼자레시피에 가입되셨습니다!');
+                   window.location.replace('/');
+               }
+           });
+
+
+
+
+        }
+
+
+        window.onload =function (){
+
+            const joinBtn = document.querySelector('#go-join');
+            joinBtn.addEventListener('click',sign_in);
+
+        }
+
+
+
+    </script>
+
+</head>
+<body>
+
+
+{% include 'header.html' %}
+    <div class="container">
+        <!--이 안에 콘텐츠 넣어주세요!-->
+
+        <div class="register-box">
+            <div class="welcome-box">
+                <h2 class="inner-logo">나혼자레시피</h2>
+                <p>이미 회원이신가요? <a href="/">로그인하기 :)</a></p>
+            </div>
+            <div id="user-info-box">
+                <label for="user-name" class="id-label">닉네임</label>
+                <input type="text" id="user-name" maxlength="12" placeholder="닉네임을 입력해주세요.">
+                <span class="info-label" id="name-info">닉네임은 12글자 이내로 사용해주세요.</span>
+                <br>
+                <label for="user-id" class="id-label user-id">ID</label>
+                <input type="text" id="user-id" maxlength="20" placeholder="아이디를 입력해주세요.">
+                <span class="info-label" id="id-info">아이디는 20자 내외 영문,숫자,하이픈으로 작성해주세요.</span>
+                <br>
+                <label for="pw-id" class="pw-label">PW</label>
+                <input type="password" id="pw-id" maxlength="20" placeholder="비밀번호를 입력해주세요.">
+                <input type="password" id="pw-id-check" maxlength="20" placeholder="비밀번호를 재확인해주세요.">
+                <span class="info-label" id="pw-info"></span>
+             </div>
+              <button type="button" class="btn btn-primary btn-lg register-btn" id="go-join">회원 가입</button>
+
+
+        </div>
+
+
+
+    </div><!--container-->
+
+
+
+</body>
+</html>

@@ -1,8 +1,25 @@
 
     <div class="header">
         <div class="header-middle">
+
+            <!--로고 이동가능하게 설정하기-->
            <a href="#" class="logo">
             나혼자레시피!
            </a>
+            <div class="user-box">
+               <ul>
+                   <li><a href="{{url_for('write')}}">레시피 등록하기</a></li>
+                   <!--로그인 없을시엔 그냥 guest-->
+                   <li>
+                       <a href="#">
+                           {% if user_info.name is defined %}
+                                {{user_info.name}}님
+                           {% else %}
+                                guest
+                           {% endif %}
+                       </a>
+                   </li>
+               </ul>
+            </div>
         </div>
     </div>

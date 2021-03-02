@@ -1,0 +1,49 @@
+  .card-img-top{
+            height: 200px;
+        }
+        .card-title{
+            color:#333230;
+        }
+
+        .recipe-info-box{
+
+            padding-top: 10px;
+            margin-bottom: 50px;
+            font-family: 'yg-jalnan';
+            text-align: center;
+            color:#6C5D54;
+        }
+
+        .recipe-info{
+            font-size: 22px;
+         }
+        .recipe-info-box>h4{
+            font-size: 16px;
+            font-family: 'NanumSquare', sans-serif;
+            font-weight: bold;
+
+        }
+
+        .hamburger{
+            padding-bottom: 14px;
+        }
+        .hamburger:hover{
+          color:#DCC287;
+          transition: all .3s;
+
+        }
+        .card{
+            border-radius: 14px;
+
+        }
+        .card-img-top{
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+       .card{
+           margin-top: 15px;
+       }
+       .container{
+           margin-bottom: 60px;
+       }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>나혼자 레시피 :: 레시피를 공유해요</title>
+
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/solid.min.css">
+    <!--꼭 기본으로 들어가야 할 css 입니다!-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/recipe.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
+
+
+</head>
+<body>
+
+
+{% include 'header.html' %}
+    <div class="container">
+        <div class="recipe-info-box">
+            <i class="fas fa-hamburger fa-4x hamburger"></i>
+           <h3 class="recipe-info">
+             회원분들이 추천해주신 맛있는 레시피 입니다!<br>
+           </h3>
+            <h4>
+                레시피 등록을 통해 꿀맛 레시피를 추천해주세요 :)
+            </h4>
+       </div>
+        <div id="cards-box" class="card-columns">
+            <div class="card">
+                <img class="card-img-top"
+                     src="{{ url_for('static', filename='image/1.jpg') }}"
+                     alt="Card image cap">
+                <div class="card-body">
+                    <a target="_blank" href="#" class="card-title">제목</a>
+                    <p class="card-text">설명</p>
+                    <p class="card-text comment">재료</p>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div><!--container-->
+
+
+
+</body>
+</html>

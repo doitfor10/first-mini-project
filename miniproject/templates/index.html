@@ -17,51 +17,81 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/solid.min.css">
+    <!--쿠키 js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-    <!--꼭 기본으로 들어가야 할 css 입니다!-->
+
+
+
+
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
 
     <style>
-
-        .login-box{
-            width:530px;
-            background-color: white;
-            border-radius: 30px;
-            margin:0 auto;
-            height: 650px;
-            box-shadow: 0px 0px 12px rgb(228,226,221);
+        .login-info{
+            font-size: 12px;
+            color:#CA4646;
+            text-align: left;
+            position: relative;
+            left:100px;
+            margin: 0px;
+            top:5px;
+           display: none;
         }
-        .container{
-            margin-top: 70px;
-        }
-
-        .input-box{
-            padding: 30px;
-            border:1px dotted red;
-            text-align: center;
-        }
-
-        #user-id,#pw-id{
-            width:300px;
-            outline: none;
-            border: none;
-            border-bottom: 1px solid lightgray;
-            padding: 5px;
-            color:#605C54;
-        }
-
-        .id-label,.pw-label{
-            margin-right: 5px;
-            font-weight: 700;
-        }
-        .pw-label{
-           margin:15px 0px 0px -9px;
-
-        }
-
     </style>
 
+    <script>
+
+        function sign_in(){
+
+           let id = document.querySelector('#user-id');
+           let password = document.querySelector('#pw-id');
+           let loginInfo = document.querySelector('.login-info');
+            if (id.value == "") {
+                loginInfo.innerText = '아이디를 입력해주세요!';
+                loginInfo.style.display = 'block';
+                return false;
+            }
+            else if(password.value == "") {
+                loginInfo.innerText = '비밀번호를 입력해주세요!';
+                loginInfo.style.display = 'block';
+                return false;
+            }else{
+                loginInfo.style.display ='none';
+            }
+            $.ajax({
+                type: "post",
+                url : "/login",
+                data:{
+                    id_give: id.value,
+                    password_give: password.value
+                },
+                success: function (response){
+
+                    if(response['result']=='success'){
+
+                       $.cookie('mytoken', response['token'], {path: '/'});
+                        window.location.replace("/recipe")
+                    }else{
+                       if(response['msg']!=null){
+                         alert(response['msg'])
+                       }
+                    }
+
+                }
+}           );
+
+        }
+        window.onload = function () {
+            const loginBtn = document.querySelector('#go-login');
+            loginBtn.addEventListener('click', sign_in);
+        };
+
+    </script>
 
 </head>
 <body>
@@ -72,19 +102,22 @@
         <div class="login-box">
 
             <div class="input-box">
+                <p class="icon"><i class="fas fa-utensils fa-5x"></i></p>
+                <p class="welcome"> 어서오세요, 나혼자 레시피에 :)</p>
                 <label for="user-id" class="id-label">ID</label>
                 <input type="text" id="user-id" placeholder="아이디를 입력해주세요.">
+
                 <br>
                 <label for="pw-id" class="pw-label">PW</label>
                 <input type="password" id="pw-id" placeholder="비밀번호를 입력해주세요.">
-
+                <p class="login-info"></p>
+                <button type="button" id="go-login" class="btn btn-primary btn-lg login-btn">로그인</button>
+                <a class="go-register" href="{{url_for('join')}}">회원가입하기</a>
             </div>
 
 
         </div>
     </div><!--container-->
-
-
 
 </body>
 </html>
