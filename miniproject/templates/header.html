@@ -1,9 +1,12 @@
 
+
+
+
     <div class="header">
         <div class="header-middle">
 
             <!--로고 이동가능하게 설정하기-->
-           <a href="#" class="logo">
+           <a href="{{url_for('home')}}" class="logo">
             나혼자레시피!
            </a>
             <div class="user-box">
@@ -11,15 +14,32 @@
                    <li><a href="{{url_for('write')}}">레시피 등록하기</a></li>
                    <!--로그인 없을시엔 그냥 guest-->
                    <li>
-                       <a href="#">
-                           {% if user_info.name is defined %}
-                                {{user_info.name}}님
+                       <p id="nickname">
+                           {% if user_info is defined %}
+                            {{user_info.name}}님
                            {% else %}
-                                guest
+                            guest
                            {% endif %}
-                       </a>
+                       </p>
                    </li>
                </ul>
             </div>
         </div>
     </div>
+
+
+<script>
+
+    let logout = document.querySelector('#nickname');
+    const GUEST ='guest';
+    logout.addEventListener('click',function (){
+
+      if(logout.innerText!=GUEST){
+          $.cookie('mytoken', null, {path: '/'});
+          window.location.replace('/');
+      }
+
+    });
+
+
+</script>

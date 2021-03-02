@@ -18,11 +18,11 @@
             font-family: 'yg-jalnan';
         }
 
-        a{
+        .go-index{
             color:#BAAD80;
             transition: all .3s;
         }
-        a:hover{
+        .go-index:hover{
             color:#6C5D54;
         }
          #user-id,#pw-id,#user-name,#pw-id-check{

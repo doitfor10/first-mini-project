@@ -23,10 +23,15 @@ def home():
       user_info = db.users.find_one({"id": payload["id"]})
       return render_template('recipe.html', user_info=user_info)
    except jwt.ExpiredSignatureError:
-      return redirect(url_for("login_user", msg="로그인 시간이 만료되었습니다."))
+      return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
       # 서버 url_for은 함수 이름으로 받는다.
    except jwt.exceptions.DecodeError:
-      return redirect(url_for("login_user"))
+      return redirect(url_for("login"))
+
+# 회원가입
+@app.route('/main')
+def login():
+   return render_template('index.html')
 
 
 # 로그인
@@ -76,7 +81,17 @@ def save_user():
 
 @app.route('/register')
 def write():
-   return render_template('write.html')
+   token_receive = request.cookies.get('mytoken')
+   try:
+      payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+      user_info = db.users.find_one({"id": payload["id"]})
+      return render_template('write.html', user_info=user_info)
+   except jwt.ExpiredSignatureError:
+      return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+      # 서버 url_for은 함수 이름으로 받는다.
+   except jwt.exceptions.DecodeError:
+      return redirect(url_for("login"))
+
 
 # recipe 전체조회
 @app.route('/recipe')

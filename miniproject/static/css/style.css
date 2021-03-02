@@ -77,11 +77,18 @@ body{
             margin-right: 10px;
         }
 
-        a{
+        a,#nickname{
             color:white;
+            cursor: pointer;
         }
         a:hover{
             color:#D7CBA3;
+            text-decoration: none;
+
+        }
+
+        #nickname:hover{
+            color: #D7CBA3;
             text-decoration: none;
 
         }

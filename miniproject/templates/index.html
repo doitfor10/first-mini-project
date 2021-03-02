@@ -75,7 +75,7 @@
                     if(response['result']=='success'){
 
                        $.cookie('mytoken', response['token'], {path: '/'});
-                        window.location.replace("/recipe")
+                        window.location.replace("/")
                     }else{
                        if(response['msg']!=null){
                          alert(response['msg'])

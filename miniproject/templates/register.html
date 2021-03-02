@@ -17,6 +17,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <!--쿠키 js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <!--꼭 기본으로 들어가야 할 css 입니다!-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -123,7 +125,7 @@
         <div class="register-box">
             <div class="welcome-box">
                 <h2 class="inner-logo">나혼자레시피</h2>
-                <p>이미 회원이신가요? <a href="/">로그인하기 :)</a></p>
+                <p>이미 회원이신가요? <a href="/" class="go-index">로그인하기 :)</a></p>
             </div>
             <div id="user-info-box">
                 <label for="user-name" class="id-label">닉네임</label>
