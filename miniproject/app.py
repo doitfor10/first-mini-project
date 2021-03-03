@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import jwt #pyJWT
 import datetime
 import hashlib
+import uuid
 from flask import Flask, render_template, jsonify, request, redirect, url_for, json
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
@@ -109,7 +110,7 @@ def saveRecipe():
       filename = secure_filename(file.filename)
       extension = filename.split(".")[-1]  # 뒤에서 첫번째 -1
       originName = file.filename.split(".")[0]
-      file_path = f"recipe/{originName}.{extension}"
+      file_path = f"recipe/{user_give}-{originName}-{uuid.uuid4()}.{extension}"
       file.save("./static/" + file_path)
       doc ={
          "title": title_receive,
