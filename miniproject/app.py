@@ -93,9 +93,43 @@ def write():
       return redirect(url_for("login"))
 
 
+#등록 수행
+@app.route('/register/recipe' , methods=['POST'])
+def saveRecipe():
+
+   title_receive = request.form["title_give"]
+   desc_receive = request.form["desc_give"]
+   url_give = request.form["url_give"]
+   user_give = request.form["user_give"]
+
+   if 'file_give' in request.files:
+      file = request.files["file_give"]
+      filename = secure_filename(file.filename)
+      extension = filename.split(".")[-1]  # 뒤에서 첫번째 -1
+      originName = file.filename.split(".")[0]
+      file_path = f"recipe/{originName}.{extension}"
+      file.save("./static/" + file_path)
+      doc ={
+         "title": title_receive,
+         "desc": desc_receive,
+         "img": file_path,
+         "url": url_give,
+         "user":user_give
+      }
+      db.recipe.insert_one(doc)
+
+   return jsonify({"result":"success","msg":"레시피 등록이 되었습니다 :)"})
+
+
+
+
 # recipe 전체조회
 @app.route('/recipe')
 def recipeAll():
+   return render_template('recipe.html')
+
+@app.route('/recipe/list')
+def recipe_list():
    return render_template('recipe.html')
 
 

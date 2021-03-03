@@ -29,7 +29,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/recipe.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+    <style>
 
+        .card-desc{
+            margin-top: 12px;
+        }
+
+    </style>
 
 
 </head>
@@ -49,12 +55,13 @@
        </div>
         <div id="cards-box" class="card-columns">
             <div class="card">
-                <img class="card-img-top"
+                <a href="#"><img class="card-img-top"
                      src="{{ url_for('static', filename='image/1.jpg') }}"
-                     alt="Card image cap">
+                     alt="Card image cap"></a>
                 <div class="card-body">
+                    <p class="card-text">닉네임</p>
                     <a target="_blank" href="#" class="card-title">제목</a>
-                    <p class="card-text">설명</p>
+                    <p class="card-text card-desc">설명</p>
                     <p class="card-text comment">재료</p>
                 </div>
             </div>

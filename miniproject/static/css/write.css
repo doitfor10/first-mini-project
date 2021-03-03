@@ -55,3 +55,9 @@
             border: 1px solid #6C5D54;
             background-color: #6C5D54;
         }
+
+         #image {
+             color: #605C54;
+             box-sizing: border-box;
+             font-size: 12px;
+         }
