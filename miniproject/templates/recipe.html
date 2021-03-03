@@ -31,12 +31,47 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
     <style>
 
-        .card-desc{
-            margin-top: 12px;
+
+        .card-user{
+            color:#333230;
+            font-weight: bold;
+        }
+        .card-title{
+            font-weight: bold;
+            position: relative;
+            top:-10px;
         }
 
+        .like-cook{
+            color:#E15757;
+            cursor: pointer;
+        }
+        .like-user{
+            font-weight: bold;
+        }
     </style>
 
+    <script>
+
+
+        function likeRecipe(title){
+
+            $.ajax({
+                type:'POST',
+                url:'/like',
+                data:{recipe_give:title},
+                success: function (response){
+
+
+                    window.location.reload();
+
+                }
+            });
+        }
+
+
+
+    </script>
 
 </head>
 <body>
@@ -54,19 +89,23 @@
             </h4>
        </div>
         <div id="cards-box" class="card-columns">
-            <div class="card">
-                <a href="#"><img class="card-img-top"
-                     src="{{ url_for('static', filename='image/1.jpg') }}"
-                     alt="Card image cap"></a>
-                <div class="card-body">
-                    <p class="card-text">닉네임</p>
-                    <a target="_blank" href="#" class="card-title">제목</a>
-                    <p class="card-text card-desc">설명</p>
-                    <p class="card-text comment">재료</p>
+
+            {%for recipe in recipes%}
+                <div class="card">
+                    <a href="{{recipe.url}}"><img class="card-img-top"
+                         src="static/{{recipe.img}}"
+                         alt="Card image cap"></a>
+                    <div class="card-body">
+
+                        <p class="card-text card-user"><i class="fas fa-utensils"></i>&nbsp;&nbsp;{{recipe.user}}님</p>
+                        <a target="_blank" href="{{recipe.url}}" class="card-title">{{recipe.title}}</a>
+                        <p class="card-text card-desc">{{recipe.desc}}</p>
+                        <span onclick="likeRecipe('{{recipe.title}}')"><i class="fas fa-heart like-cook"></i></span>
+                        <span class="like-user">&nbsp;{{recipe.like}}</span>
+                    </div>
                 </div>
-            </div>
-
-
+            {% endfor %}
+            <p>{{word}}</p>
         </div>
 
 
