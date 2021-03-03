@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/write.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon-16x16.png') }}">
     <script>
 
         function writeRecipe(){
@@ -66,6 +66,7 @@
             }
             if(!url){
                 writeInfo.innerText ='레시피 URL을 등록해주세요.';
+                return false;
             }
 
             let form_data = new FormData();

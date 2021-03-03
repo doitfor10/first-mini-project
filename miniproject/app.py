@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import jwt #pyJWT
 import datetime
 import hashlib
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request, redirect, url_for, json
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
@@ -21,7 +21,7 @@ def home():
    try:
       payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
       user_info = db.users.find_one({"id": payload["id"]})
-      recipes = list(db.recipe.find({}, {'_id': False}))
+      recipes = list(db.recipe.find({}).sort('like',-1))
 
       return render_template('recipe.html', user_info=user_info, recipes=recipes)
    except jwt.ExpiredSignatureError:
@@ -134,20 +134,22 @@ def like():
       payload = jwt.decode(token_receive,SECRET_KEY,algorithms=['HS256'])
       id = payload["id"] # 아이디 대상
       recipe = request.form['recipe_give'] # 음식 타이틀
+      heart = request.form['heart_give'] # 하트 아이디
       like_user = db.like.find_one({'user_id':id,'recipe':recipe},{'_id':False})
 
       if like_user is None:
          doc ={
             'user_id':id,
             'recipe':recipe,
-            'like':1
+            'like':1,
+            'heart':heart
          }
          db.like.insert_one(doc)
          target_recipe = db.recipe.find_one({'title':recipe},{'_id':False})
          current_like = target_recipe['like']
          new_like = current_like+1
          db.recipe.update_one({'title':recipe},{'$set':{'like':new_like}})
-         return jsonify({'msg': '좋아요 완료!'})
+         return jsonify({'msg': '좋아요 완료!','do':'like','count':new_like})
 
       else:
          target_recipe = db.recipe.find_one({'title': recipe}, {'_id': False})
@@ -157,16 +159,30 @@ def like():
             db.like.update_one({'user_id':id,'recipe':recipe},{'$set':{'like':1}})
             user_like = current_like+1
             db.recipe.update_one({'title': recipe}, {'$set': {'like': user_like}})
-            return jsonify({'msg': '좋아요 완료!'})
+            return jsonify({'msg': '좋아요 완료!','do':'like','count':user_like})
          
 
          db.like.update_one({'user_id': id,'recipe': recipe}, {'$set': {'like': 0}})
          user_like = current_like-1
          db.recipe.update_one({'title': recipe}, {'$set': {'like': user_like}})
-         return jsonify({'msg': '좋아요 취소!'})
+         return jsonify({'msg': '좋아요 취소!','do':'unlike','count':user_like})
 
    except (jwt.ExpiredSignatureError,jwt.exceptions.DecodeError):
       return redirect(url_for("home"))
+
+@app.route('/like/select', methods=['POST'])
+def like_select():
+
+   token_receive = request.cookies.get('mytoken')
+   try:
+      payload = jwt.decode(token_receive,SECRET_KEY,algorithms=['HS256'])
+      id = payload["id"] # 아이디 대상
+      user_like = list(db.like.find({"user_id":id, "like": 1},{'_id':False}))
+
+      return jsonify({'like_id': user_like})
+   except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+      return jsonify({'msg': '조회 실패'})
+
 
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)

@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/recipe.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon-16x16.png') }}">
     <style>
 
 
@@ -43,32 +45,74 @@
         }
 
         .like-cook{
-            color:#E15757;
+            color:#D7D4D3;
             cursor: pointer;
         }
         .like-user{
             font-weight: bold;
+            color:#333230;
         }
+        .like{
+            color:#E15757;
+        }
+
     </style>
 
     <script>
 
+    // 서버에서 가져온 거 확인해서 addclass removeclass
 
-        function likeRecipe(title){
+        window.onload = function (){
+
+            $.ajax({
+                    type: 'POST',
+                    url: '/like/select',
+                    data: {},
+                    success: function (response) {
+
+                        if(response['like_id']){
+                            console.log(response['like_id'])
+                            let like = response['like_id'];
+                            for(let i=0;i<like.length;i++){
+
+                                let like_id = like[i]['heart'];
+                                let heart = document.getElementById(like_id);
+                                heart.classList.add('like');
+                             }
+
+                        }
+                     }
+            });
+
+        }
+
+
+        function likeRecipe(title,heartId){
+
+            const LIKE = 'like';
 
             $.ajax({
                 type:'POST',
                 url:'/like',
-                data:{recipe_give:title},
+                data:{recipe_give:title,heart_give:heartId},
                 success: function (response){
 
+                    let heart = document.getElementById(heartId);
+                    let count = heart.querySelector('span');
+                    let action = response['do'];
+                    if(response['do']==LIKE){
+                        console.log(heart)
+                        heart.classList.add('like');
+                        count.innerText =` ${response['count']}`;
+                    }else{
+                        heart.classList.remove('like');
+                        count.innerText =` ${response['count']}`;
+                    }
 
                     window.location.reload();
-
                 }
             });
         }
-
 
 
     </script>
@@ -100,8 +144,8 @@
                         <p class="card-text card-user"><i class="fas fa-utensils"></i>&nbsp;&nbsp;{{recipe.user}}님</p>
                         <a target="_blank" href="{{recipe.url}}" class="card-title">{{recipe.title}}</a>
                         <p class="card-text card-desc">{{recipe.desc}}</p>
-                        <span onclick="likeRecipe('{{recipe.title}}')"><i class="fas fa-heart like-cook"></i></span>
-                        <span class="like-user">&nbsp;{{recipe.like}}</span>
+                        <span onclick="likeRecipe('{{recipe.title}}','{{recipe._id}}')"><i class="fas fa-heart like-cook" id="{{recipe._id}}"><span class="like-user">&nbsp;{{recipe.like}}</span></i></span>
+
                     </div>
                 </div>
             {% endfor %}
