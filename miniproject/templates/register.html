@@ -35,11 +35,27 @@
         #go-btn:disabled{
             background-color:#6C5D54;
         }
+
+        #user-id{
+            width:200px;
+        }
+
+        #check-dup{
+            font-size: 12px;
+            margin-left:15px;
+            width:80px;
+            background-color: #D7CBA3;
+            outline: none;
+            border:1px solid #D7CBA3;
+        }
+
+
+
     </style>
     <script>
 
         function  is_id(value){
-            let regExp =  /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{1,12}$/;
+            let regExp =  /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{1,20}$/;
             return regExp.test(value);
         }
 
@@ -83,6 +99,12 @@
                return;
            }
 
+           if($('#id-info').hasClass('is_success')==false){
+               idInfo.classList.add('error');
+               idInfo.innerText = '아이디 중복 검사를 해주세요.';
+               return;
+           }
+
            $.ajax({
                type:"POST",
                url:"/join/save",
@@ -96,18 +118,52 @@
                    window.location.replace('/');
                }
            });
+         }
 
+        function check_dup(){
+            let id = document.querySelector('#user-id').value;
+            let idInfo = document.querySelector('#id-info');
+            console.log(id);
 
+            if(id.length == 0){
+                idInfo.classList.add('error');
+                idInfo.innerText = '아이디를 올바르게 입력해주세요.';
+                return false;
+            }
+            if(!is_id(id)){
+               idInfo.classList.add('error');
+               idInfo.innerText = '아이디는 20자 내외 영문,숫자,하이픈으로 작성해주세요.';
+               return false;
+           }
+            $.ajax({
+                type: "POST",
+                url:"/join/ckeck_dup",
+                data:{
+                    id_give: id
+                },
+                success: function (response){
+                    //exists가 true라면..
+                    if(response["exists"]){
+                        idInfo.classList.add('error');
+                        idInfo.classList.remove('is_success')
+                        idInfo.innerText = '이미 존재하는 아이디입니다.';
+                    }else{
+                        idInfo.classList.remove('error');
+                        idInfo.classList.add('is_success');
+                        idInfo.innerText = '사용할 수 있는 아이디입니다.';
+                    }
+                 }
 
-
-        }
+            });
+         }
 
 
         window.onload =function (){
 
             const joinBtn = document.querySelector('#go-join');
+            const checkBtn = document.querySelector('#check-dup');
             joinBtn.addEventListener('click',sign_in);
-
+            checkBtn.addEventListener('click',check_dup);
         }
 
 
@@ -134,6 +190,7 @@
                 <br>
                 <label for="user-id" class="id-label user-id">ID</label>
                 <input type="text" id="user-id" maxlength="20" placeholder="아이디를 입력해주세요.">
+                <input class="btn btn-primary" type="button" value="중복 체크" id="check-dup">
                 <span class="info-label" id="id-info">아이디는 20자 내외 영문,숫자,하이픈으로 작성해주세요.</span>
                 <br>
                 <label for="pw-id" class="pw-label">PW</label>

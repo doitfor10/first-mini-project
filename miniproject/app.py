@@ -95,7 +95,6 @@ def write():
    except jwt.exceptions.DecodeError:
       return redirect(url_for("login"))
 
-
 #등록 수행
 @app.route('/register/recipe' , methods=['POST'])
 def saveRecipe():
@@ -170,6 +169,16 @@ def like():
 
    except (jwt.ExpiredSignatureError,jwt.exceptions.DecodeError):
       return redirect(url_for("home"))
+
+
+# 중복 체크
+@app.route('/join/ckeck_dup', methods=['POST'])
+def check_dup():
+    id_receive = request.form['id_give']
+    exists = bool(db.users.find_one({"id": id_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
+
+
 
 @app.route('/like/select', methods=['POST'])
 def like_select():
